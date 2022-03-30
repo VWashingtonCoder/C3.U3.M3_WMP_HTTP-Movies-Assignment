@@ -5,7 +5,7 @@ import MovieList from './components/MovieList';
 import Movie from './components/Movie';
 import EditMovieForm from "./components/EditMovieForm"
 import MovieHeader from './components/MovieHeader';
-
+import AddMovieForm from "./components/AddMovieForm";
 import FavoriteMovieList from './components/FavoriteMovieList';
 
 import axios from 'axios';
@@ -34,6 +34,18 @@ const App = (props) => {
         })
   }
 
+  const addMovie = (movie) => {
+		axios.post(`http://localhost:9000/api/movies`, movie)
+      .then(res => {
+        console.log(res)
+        setMovies(res.data)
+      })
+      .catch(err => {
+        console.log(err.response.data.message)
+      })
+	}
+
+
   const addToFavorites = (movie) => {
     
   }
@@ -50,6 +62,10 @@ const App = (props) => {
           <FavoriteMovieList favoriteMovies={favoriteMovies}/>
         
           <Switch>
+            <Route path="/movies/add">
+              <AddMovieForm addMovie={addMovie} />
+            </Route>
+
             <Route path="/movies/edit/:id">
               <EditMovieForm setMovies={setMovies} />
             </Route>
